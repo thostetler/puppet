@@ -12,6 +12,7 @@
   },
   "scripts": {
     "start": "tsdx watch",
+    "serve": "./server.sh",
     "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
