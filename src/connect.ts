@@ -1,8 +1,6 @@
-import puppeteer from 'puppeteer-extra';
-import stealthPlugin from 'puppeteer-extra-plugin-stealth';
+import puppeteer from 'puppeteer';
 export const connect = async () => {
   try {
-    puppeteer.use(stealthPlugin());
     return await puppeteer.connect({
       browserWSEndpoint: 'ws://localhost:3000',
     });

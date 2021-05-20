@@ -1,3 +1,3 @@
-import { run } from './scripts/google';
+import { run } from './scripts/kanboard';
 
 run();
