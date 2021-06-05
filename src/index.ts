@@ -1,3 +1,3 @@
-import { run } from './scripts/kanboard';
+import { run } from './scripts/microcenter';
 
 run();
