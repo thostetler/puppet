@@ -1,5 +1,7 @@
 import { Page } from 'puppeteer';
 import { connect } from '../connect';
+import { sendAlert } from '../utils';
+
 const URL =
   'https://www.microcenter.com/product/630282/amd-ryzen-9-5950x-vermeer-34ghz-16-core-am4-boxed-processor';
 export const run = async () => {
@@ -7,8 +9,13 @@ export const run = async () => {
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 1800 });
   console.log('Checking Microcenter for 5950X availability');
-  await checkStore(page, StoreId.PARKVILLE);
-  await checkStore(page, StoreId.ROCKVILLE);
+  const inventory = [
+    await checkStore(page, StoreId.PARKVILLE),
+    await checkStore(page, StoreId.ROCKVILLE),
+  ].filter(v => !v.startsWith('SOLD OUT'));
+  if (inventory.length > 0) {
+    sendAlert(inventory.join('\n'));
+  }
   await browser.close();
 };
 
@@ -23,6 +30,7 @@ enum StoreId {
 
 const checkStore = async (page: Page, id: StoreId) => {
   await page.goto(`${URL}?storeid=${id}`);
-  const inv = await checkInventory(page);
+  const inv = (await checkInventory(page)) || '';
   console.log(inv);
+  return inv;
 };
